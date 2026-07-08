@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTasks } from "../services/taskService";
 
-function TaskList() {
+function TaskList(tasks,onEdit) {
 
   const [tasks, setTasks] = useState([]);
 
@@ -28,7 +28,12 @@ function TaskList() {
         <div key={task.id}>
           <h3>{task.title}</h3>
           <p>{task.description}</p>
-          <hr />
+          <button
+            onClick={() => onEdit(task)}
+          >
+            Edit
+          </button>
+          <hr/>
         </div>
       ))}
     </div>
