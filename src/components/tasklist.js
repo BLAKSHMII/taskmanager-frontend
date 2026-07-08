@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getTasks } from "../services/taskService";
 
-function TaskList(tasks,onEdit) {
+function TaskList({onEdit}) {
 
   const [tasks, setTasks] = useState([]);
 
