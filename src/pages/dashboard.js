@@ -22,14 +22,20 @@ function Dashboard() {
       <h1>Dashboard</h1>
 
       <p>Welcome to Task Manager</p>
-      <TaskForm />
-      <hr></hr>
-      <TaskList />
+      <TaskForm
+        selectedTask={selectedTask}
+      />
+
+      <hr />
+
+      <TaskList
+        onEdit={setSelectedTask}
+      />
 
       <button onClick={handleLogout}>
         Logout
       </button>
-    </div>
+     </div>
   );
 }
 

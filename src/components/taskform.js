@@ -1,12 +1,29 @@
-import { useState } from "react";
-import { createTask } from "../services/taskService";
+import { useState, useEffect } from "react";
+import {
+  createTask,
+  updateTask
+} from "../services/taskService";
 
-function TaskForm() {
+function TaskForm({ selectedTask }) {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+
+    if (selectedTask) {
+
+      setTitle(selectedTask.title);
+      setDescription(
+        selectedTask.description
+      );
+
+    }
+
+  }, [selectedTask]);
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const taskData = {
@@ -15,22 +32,44 @@ function TaskForm() {
     };
 
     try {
-      await createTask(taskData);
 
-      alert("Task Created Successfully");
+      if (selectedTask) {
+
+        await updateTask(
+          selectedTask.id,
+          taskData
+        );
+
+        alert("Task Updated Successfully");
+
+      } else {
+
+        await createTask(taskData);
+
+        alert("Task Created Successfully");
+
+      }
 
       setTitle("");
       setDescription("");
 
     } catch (error) {
+
       console.log(error);
-      alert("Failed to create task");
+
+      alert("Operation Failed");
+
     }
   };
 
   return (
     <div>
-      <h2>Add Task</h2>
+
+      <h2>
+        {selectedTask
+          ? "Edit Task"
+          : "Add Task"}
+      </h2>
 
       <form onSubmit={handleSubmit}>
 
@@ -56,10 +95,15 @@ function TaskForm() {
         <br /><br />
 
         <button type="submit">
-          Add Task
+
+          {selectedTask
+            ? "Update Task"
+            : "Add Task"}
+
         </button>
 
       </form>
+
     </div>
   );
 }
