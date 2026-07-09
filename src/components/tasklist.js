@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTasks } from "../services/taskService";
+import { getTasks,deleteTask } from "../services/taskService";
 
 function TaskList({onEdit}) {
 
@@ -20,6 +20,23 @@ function TaskList({onEdit}) {
     }
   };
 
+  const handleDelete = async (id) => {
+
+    try {
+
+      await deleteTask(id);
+
+      alert("Task Deleted");
+
+      loadTasks();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
   return (
     <div>
       <h2>Task List</h2>
@@ -33,11 +50,22 @@ function TaskList({onEdit}) {
           >
             Edit
           </button>
+
+
+          <button
+          onClick={() =>
+           handleDelete(task.id)
+           }
+          >
+             Delete
+          </button>
           <hr/>
         </div>
       ))}
     </div>
   );
 }
+
+
 
 export default TaskList;
